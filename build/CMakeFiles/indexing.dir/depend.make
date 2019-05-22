@@ -1854,8 +1854,14 @@ CMakeFiles/indexing.dir/src/count_token_usage.cpp.o: /usr/local/include/boost/ut
 CMakeFiles/indexing.dir/src/count_token_usage.cpp.o: /usr/local/include/boost/utility/enable_if.hpp
 CMakeFiles/indexing.dir/src/count_token_usage.cpp.o: /usr/local/include/boost/version.hpp
 
+CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../include/boundary_analysis.hpp
+CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../include/count_token_usage.hpp
+CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../include/indexing_thread_worker.hpp
+CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../include/mqueue.hpp
 CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../src/indexing_thread_worker.cpp
 
+CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o: ../include/merging_thread_worker.hpp
+CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o: ../include/mqueue.hpp
 CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o: ../src/merging_thread_worker.cpp
 
 CMakeFiles/indexing.dir/src/mqueue.cpp.o: ../src/mqueue.cpp

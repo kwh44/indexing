@@ -1,7 +1,3 @@
-//
-// Created by kwh44 on 4/20/19.
-//
-
 #include <set>
 #include <boost/locale.hpp>
 #include <boost/locale/boundary.hpp>

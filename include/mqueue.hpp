@@ -10,15 +10,14 @@
 #include <mutex>
 #include <condition_variable>
 
-template<typename T>
-class m_queue {
-public:
 
+template<typename T>
+class Mqueue {
+private:
     std::queue<T> queue_;
     std::mutex mutex_;
     std::condition_variable cond_;
-
-
+public:
     T pop() {
         std::unique_lock<std::mutex> lock(mutex_);
         while (queue_.empty()) {
@@ -36,15 +35,8 @@ public:
         }
         item = queue_.front();
         queue_.pop();
-    }
-//    bool empty(){
-//        std::unique_lock<std::mutex> lock(mutex_);
-//        while (queue_.empty()) {
-//            cond_.wait(lock);
-//        }
-//        auto item = queue_.front();
-//        return item.empty();
-//    }
+    };
+
 
     void push(const T &item) {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -52,6 +44,7 @@ public:
         lock.unlock();
         cond_.notify_one();
     }
+
 
     void push(T &&item) {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -66,6 +59,28 @@ public:
 
 
 };
+
+
+//
+//class Mqueue
+//{
+//private:
+//    std::queue<T> queue_;
+//    std::mutex mutex_;
+//    std::condition_variable cond_;
+//public:
+//    T pop();
+//
+//    void pop(T &item);
+//
+//    void push(const T &item);
+//
+//    void push(T &&item);
+//
+//    unsigned long size();
+//
+//
+//};
 
 #endif //PARALLEL_INDEXING_MQUEUE_H
 

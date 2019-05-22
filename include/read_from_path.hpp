@@ -7,6 +7,6 @@
 #include <condition_variable>
 #include "mqueue.hpp"
                         // queue of blocks, dir name, cv, m
-void get_path_content(m_queue<std::string>&, std::string &);
+void get_path_content(Mqueue<std::string>&, std::string &);
 
 #endif

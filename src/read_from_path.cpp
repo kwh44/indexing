@@ -6,9 +6,8 @@
 #include "read_txt_to_string.hpp"
 #include "read_from_path.hpp"
 
-void get_path_content(m_queue<std::string> &index_queue, std::string &dir_name) {
+void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
     std::vector<std::string> files_to_index;
-    std::cout << "IN get_path_content\n";
     for (auto t = boost::filesystem::recursive_directory_iterator(dir_name);
          t != boost::filesystem::recursive_directory_iterator{}; ++t) {
         boost::filesystem::path z(*t);
@@ -17,19 +16,16 @@ void get_path_content(m_queue<std::string> &index_queue, std::string &dir_name) 
         if (extension != ".zip" && extension != ".txt") continue;
         const auto &v = z.string();
         if (extension == ".txt") {
-
             std::string text;
             std::ifstream txt_file(v);
             if (txt_file.is_open()) {
                 read_from_txt(txt_file, text);
-                {
-                    std::cout << "emplace" << z << std::endl;
-                    index_queue.push(text);
-                }
+                index_queue.push(text);
             } else {
                 continue;
             }
         } else {
+
             int response;
             ssize_t len;
             constexpr size_t buffer_size = 8192;
@@ -52,7 +48,6 @@ void get_path_content(m_queue<std::string> &index_queue, std::string &dir_name) 
                         len = archive_read_data(a, buff, sizeof(buff));
                     }
                     {
-
                         index_queue.push(entry_content_string.str());
                     }
                 }
@@ -62,7 +57,7 @@ void get_path_content(m_queue<std::string> &index_queue, std::string &dir_name) 
         }
     }
     {
-        std::cout << "poison 1 add" << std::endl;
+        //push poison pill
         index_queue.push("");
     }
     std::cout << "Reader thread finished work\n";

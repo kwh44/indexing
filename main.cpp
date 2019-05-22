@@ -71,8 +71,8 @@ int main(int argc, char **argv) {
     std::locale::global(gen("en_us.UTF-8"));
 
     // array of blocks
-    m_queue<std::string> index_queue;
-    m_queue<std::map<std::string, size_t>> merge_queue;
+    Mqueue<std::string> index_queue;
+    Mqueue<std::map<std::string, size_t>> merge_queue;
 
     std::mutex index_mtx;
 //    // run it in other thread
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 //
     std::vector<std::thread> merging_threads;
     merging_threads.reserve(conf_data.merging_thread_num);
-
+//
     for (size_t i = 0; i < conf_data.indexing_thread_num; ++i) {
         indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(merge_queue));
     }
@@ -94,15 +94,12 @@ int main(int argc, char **argv) {
         merging_threads.emplace_back(merge_worker, std::ref(merge_queue));
     }
     reader.join();
-    std::cout<<index_queue.size()<<std::endl;
     std::cout << "READER JOINED" << std::endl;
     for (auto &v: indexing_threads) v.join();
     std::map<std::string, size_t> merge_queue_empty;
     merge_queue.push(merge_queue_empty);
     std::cout << "INDEXING JOINED" << std::endl;
     for (auto &v: merging_threads) v.join();
-//
-//
     std::cout << std::endl;
     std::cout << "Printing final map\n";
     auto final = std::move(merge_queue.pop());

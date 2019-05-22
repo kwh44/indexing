@@ -140,6 +140,16 @@ indexing_thread_worker.hpp
 merging_thread_worker.hpp
 /Users/kolakolasic/kwh44/indexing/merging_thread_worker.hpp
 
+/Users/kolakolasic/kwh44/indexing/src/indexing_thread_worker.cpp
+indexing_thread_worker.hpp
+/Users/kolakolasic/kwh44/indexing/src/indexing_thread_worker.hpp
+
+/Users/kolakolasic/kwh44/indexing/src/merging_thread_worker.cpp
+merging_thread_worker.hpp
+/Users/kolakolasic/kwh44/indexing/src/merging_thread_worker.hpp
+
+/Users/kolakolasic/kwh44/indexing/src/mqueue.cpp
+
 /Users/kolakolasic/kwh44/indexing/src/read_from_path.cpp
 archive.h
 -
