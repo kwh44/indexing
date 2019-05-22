@@ -18,10 +18,11 @@ static int count(const std::string &str, const std::string &sub) {
 
 
 void token_usage(const std::string &data, const std::vector<std::string> &token_list,
-                 std::unique_ptr<std::map<std::string, size_t>> &tls_map) {
+                 std::map<std::string, size_t>  &tls_map) {
     size_t usage_count;
     for (const auto &token: token_list) {
         usage_count = count(data, token);
-        tls_map->emplace(std::make_pair(token, usage_count));
+        std::cout<<"token data "<<token<<std::endl;
+        tls_map.emplace(std::make_pair(token, usage_count));
     }
 }

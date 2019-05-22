@@ -6,8 +6,7 @@
 #include "read_txt_to_string.hpp"
 #include "read_from_path.hpp"
 
-void
-get_path_content(m_queue<std::string> &index_queue, std::string &dir_name, std::condition_variable &cv, std::mutex &mtx) {
+void get_path_content(m_queue<std::string> &index_queue, std::string &dir_name) {
     std::vector<std::string> files_to_index;
     std::cout << "IN get_path_content\n";
     for (auto t = boost::filesystem::recursive_directory_iterator(dir_name);
@@ -18,15 +17,15 @@ get_path_content(m_queue<std::string> &index_queue, std::string &dir_name, std::
         if (extension != ".zip" && extension != ".txt") continue;
         const auto &v = z.string();
         if (extension == ".txt") {
+
             std::string text;
             std::ifstream txt_file(v);
             if (txt_file.is_open()) {
                 read_from_txt(txt_file, text);
                 {
-                    std::lock_guard<std::mutex> lk(mtx);
-                    index_queue.emplace_back(text);
+                    std::cout << "emplace" << z << std::endl;
+                    index_queue.push(text);
                 }
-                cv.notify_one();
             } else {
                 continue;
             }
@@ -53,10 +52,9 @@ get_path_content(m_queue<std::string> &index_queue, std::string &dir_name, std::
                         len = archive_read_data(a, buff, sizeof(buff));
                     }
                     {
-                        std::lock_guard<std::mutex> lk(mtx);
-                        index_queue.emplace_back(entry_content_string.str());
+
+                        index_queue.push(entry_content_string.str());
                     }
-                   cv.notify_one();
                 }
             }
             archive_read_close(a);
@@ -64,10 +62,9 @@ get_path_content(m_queue<std::string> &index_queue, std::string &dir_name, std::
         }
     }
     {
-        std::lock_guard<std::mutex> lk(mtx);
-        index_queue.emplace_back("");
+        std::cout << "poison 1 add" << std::endl;
+        index_queue.push("");
     }
-    cv.notify_one();
     std::cout << "Reader thread finished work\n";
 }
 

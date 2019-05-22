@@ -5,30 +5,66 @@
 #ifndef PARALLEL_INDEXING_MQUEUE_H
 #define PARALLEL_INDEXING_MQUEUE_H
 
-#include <deque>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
-template<class T>
+template<typename T>
 class m_queue {
-    std::deque<T> backend_array;
 public:
-    m_queue() = default;
 
-    // void push(T item) { backend_array.push_back(item); }
-
-    T &front() { return backend_array.front(); }
-
-    void pop() { backend_array.pop_front(); }
-
-    auto emplace_back(T &item) { return backend_array.emplace_back(std::move(item)); }
-
-    auto emplace_back(T &&item) { return backend_array.emplace_back(std::move(item)); }
+    std::queue<T> queue_;
+    std::mutex mutex_;
+    std::condition_variable cond_;
 
 
-    size_t size() const { return backend_array.size(); }
+    T pop() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (queue_.empty()) {
+            cond_.wait(lock);
+        }
+        auto item = queue_.front();
+        queue_.pop();
+        return item;
+    }
 
-    size_t empty() const { return backend_array.empty(); }
+    void pop(T &item) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        while (queue_.empty()) {
+            cond_.wait(lock);
+        }
+        item = queue_.front();
+        queue_.pop();
+    }
+//    bool empty(){
+//        std::unique_lock<std::mutex> lock(mutex_);
+//        while (queue_.empty()) {
+//            cond_.wait(lock);
+//        }
+//        auto item = queue_.front();
+//        return item.empty();
+//    }
 
-    T& operator[](size_t pos) const { return backend_array[pos]; }
+    void push(const T &item) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        queue_.push(item);
+        lock.unlock();
+        cond_.notify_one();
+    }
+
+    void push(T &&item) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        queue_.push(std::move(item));
+        lock.unlock();
+        cond_.notify_one();
+    }
+
+    unsigned long size() {
+        return queue_.size();
+    }
+
+
 };
 
 #endif //PARALLEL_INDEXING_MQUEUE_H

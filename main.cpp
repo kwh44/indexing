@@ -22,9 +22,6 @@
 
 typedef std::pair<std::string, size_t> pair;
 
-std::mutex io;
-
-
 int main(int argc, char **argv) {
     // help info
     if (argc == 2 && std::string(argv[1]) == "--help") {
@@ -75,40 +72,41 @@ int main(int argc, char **argv) {
 
     // array of blocks
     m_queue<std::string> index_queue;
+    m_queue<std::map<std::string, size_t>> merge_queue;
+
     std::mutex index_mtx;
-    std::condition_variable index_cv;
-    // run it in other thread
-    std::thread reader(get_path_content, std::ref(index_queue), std::ref(conf_data.input_dir_name), std::ref(index_cv),
-                       std::ref(index_mtx));
+//    // run it in other thread
+
+    std::thread reader(get_path_content, std::ref(index_queue), std::ref(conf_data.input_dir_name));
 
 
-    m_queue<std::unique_ptr<std::map<std::string, size_t>>> merge_queue;
-    std::mutex merge_mtx;
-    std::condition_variable merge_cv;
-
+//
     std::vector<std::thread> indexing_threads;
     indexing_threads.reserve(conf_data.indexing_thread_num);
-
+//
     std::vector<std::thread> merging_threads;
     merging_threads.reserve(conf_data.merging_thread_num);
 
     for (size_t i = 0; i < conf_data.indexing_thread_num; ++i) {
-        indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(index_cv), std::ref(index_mtx),
-                std::ref(merge_queue), std::ref(merge_cv), std::ref(merge_mtx));
+        indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(merge_queue));
     }
-
     for (size_t i = 0; i < conf_data.merging_thread_num; ++i) {
-        merging_threads.emplace_back(merge_worker, std::ref(merge_queue),
-                std::ref(merge_mtx), std::ref(merge_cv));
+        merging_threads.emplace_back(merge_worker, std::ref(merge_queue));
     }
     reader.join();
+    std::cout<<index_queue.size()<<std::endl;
+    std::cout << "READER JOINED" << std::endl;
     for (auto &v: indexing_threads) v.join();
+    std::map<std::string, size_t> merge_queue_empty;
+    merge_queue.push(merge_queue_empty);
+    std::cout << "INDEXING JOINED" << std::endl;
     for (auto &v: merging_threads) v.join();
-
+//
+//
     std::cout << std::endl;
     std::cout << "Printing final map\n";
-    auto final = std::move(merge_queue.front());
-    for (auto it = final->begin(); it!=final->end(); ++it) {
+    auto final = std::move(merge_queue.pop());
+    for (auto it = final.begin(); it != final.end(); ++it) {
         std::cout << it->first << " " << it->second << std::endl;
     }
     std::cout << "Merge_queue size is " << merge_queue.size() << std::endl;

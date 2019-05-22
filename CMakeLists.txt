@@ -12,7 +12,9 @@ find_package(Threads REQUIRED)
 
 find_package(LibArchive REQUIRED)
 
-find_package(ICU COMPONENTS data i18n io test tu REQUIRED)
+#find_package(ICU COMPONENTS data i18n io test tu REQUIRED)
+
+include_directories(${LibArchive_INCLUDE_DIRS})
 
 add_compile_options("-DDEBUG")
 
@@ -21,6 +23,9 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREAD ON)
 
 include_directories(include)
+
+
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(indexing main.cpp
         include/read_config.hpp src/read_config.cpp
@@ -33,4 +38,4 @@ add_executable(indexing main.cpp
         include/indexing_thread_worker.hpp src/indexing_thread_worker.cpp
         include/merging_thread_worker.hpp src/merging_thread_worker.cpp)
 
-target_link_libraries(indexing Boost::locale Boost::filesystem archive Threads::Threads)
+target_link_libraries(indexing Boost::locale Boost::filesystem ${LibArchive_LIBRARIES} Threads::Threads)
