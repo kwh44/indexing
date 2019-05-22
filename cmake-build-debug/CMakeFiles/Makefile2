@@ -62,7 +62,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/kolakolasic/kwh44/indexing
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/kolakolasic/kwh44/indexing/build
+CMAKE_BINARY_DIR = /Users/kolakolasic/kwh44/indexing/cmake-build-debug
 
 #=============================================================================
 # Target rules for target CMakeFiles/indexing.dir
@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /Users/kolakolasic/kwh44/indexing/build
 CMakeFiles/indexing.dir/all:
 	$(MAKE) -f CMakeFiles/indexing.dir/build.make CMakeFiles/indexing.dir/depend
 	$(MAKE) -f CMakeFiles/indexing.dir/build.make CMakeFiles/indexing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target indexing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target indexing"
 .PHONY : CMakeFiles/indexing.dir/all
 
 # Include target in all.
@@ -81,9 +81,9 @@ all: CMakeFiles/indexing.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/indexing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/kolakolasic/kwh44/indexing/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles 10
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/indexing.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/kolakolasic/kwh44/indexing/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/indexing.dir/rule
 
 # Convenience name for target.

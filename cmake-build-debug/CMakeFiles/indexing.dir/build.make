@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/kolakolasic/kwh44/indexing
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/kolakolasic/kwh44/indexing/build
+CMAKE_BINARY_DIR = /Users/kolakolasic/kwh44/indexing/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/indexing.dir/depend.make
@@ -59,7 +59,7 @@ include CMakeFiles/indexing.dir/flags.make
 
 CMakeFiles/indexing.dir/main.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/indexing.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/indexing.dir/main.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/main.cpp.o -c /Users/kolakolasic/kwh44/indexing/main.cpp
 
 CMakeFiles/indexing.dir/main.cpp.i: cmake_force
@@ -72,7 +72,7 @@ CMakeFiles/indexing.dir/main.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/read_config.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/read_config.cpp.o: ../src/read_config.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/indexing.dir/src/read_config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/indexing.dir/src/read_config.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/read_config.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/read_config.cpp
 
 CMakeFiles/indexing.dir/src/read_config.cpp.i: cmake_force
@@ -85,7 +85,7 @@ CMakeFiles/indexing.dir/src/read_config.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/read_from_path.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/read_from_path.cpp.o: ../src/read_from_path.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/indexing.dir/src/read_from_path.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/indexing.dir/src/read_from_path.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/read_from_path.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/read_from_path.cpp
 
 CMakeFiles/indexing.dir/src/read_from_path.cpp.i: cmake_force
@@ -98,7 +98,7 @@ CMakeFiles/indexing.dir/src/read_from_path.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/boundary_analysis.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/boundary_analysis.cpp.o: ../src/boundary_analysis.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/indexing.dir/src/boundary_analysis.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/indexing.dir/src/boundary_analysis.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/boundary_analysis.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/boundary_analysis.cpp
 
 CMakeFiles/indexing.dir/src/boundary_analysis.cpp.i: cmake_force
@@ -111,7 +111,7 @@ CMakeFiles/indexing.dir/src/boundary_analysis.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.o: ../src/read_txt_to_string.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/read_txt_to_string.cpp
 
 CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.i: cmake_force
@@ -124,7 +124,7 @@ CMakeFiles/indexing.dir/src/read_txt_to_string.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/count_token_usage.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/count_token_usage.cpp.o: ../src/count_token_usage.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/indexing.dir/src/count_token_usage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/indexing.dir/src/count_token_usage.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/count_token_usage.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/count_token_usage.cpp
 
 CMakeFiles/indexing.dir/src/count_token_usage.cpp.i: cmake_force
@@ -137,7 +137,7 @@ CMakeFiles/indexing.dir/src/count_token_usage.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/mqueue.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/mqueue.cpp.o: ../src/mqueue.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/indexing.dir/src/mqueue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/indexing.dir/src/mqueue.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/mqueue.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/mqueue.cpp
 
 CMakeFiles/indexing.dir/src/mqueue.cpp.i: cmake_force
@@ -150,7 +150,7 @@ CMakeFiles/indexing.dir/src/mqueue.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o: ../src/indexing_thread_worker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/indexing_thread_worker.cpp
 
 CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.i: cmake_force
@@ -163,7 +163,7 @@ CMakeFiles/indexing.dir/src/indexing_thread_worker.cpp.s: cmake_force
 
 CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o: CMakeFiles/indexing.dir/flags.make
 CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o: ../src/merging_thread_worker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.o -c /Users/kolakolasic/kwh44/indexing/src/merging_thread_worker.cpp
 
 CMakeFiles/indexing.dir/src/merging_thread_worker.cpp.i: cmake_force
@@ -204,7 +204,7 @@ indexing: /usr/local/lib/libboost_filesystem-mt.dylib
 indexing: /usr/local/lib/libarchive.dylib
 indexing: /usr/local/lib/libboost_system-mt.dylib
 indexing: CMakeFiles/indexing.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kolakolasic/kwh44/indexing/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable indexing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable indexing"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/indexing.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -217,6 +217,6 @@ CMakeFiles/indexing.dir/clean:
 .PHONY : CMakeFiles/indexing.dir/clean
 
 CMakeFiles/indexing.dir/depend:
-	cd /Users/kolakolasic/kwh44/indexing/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/kolakolasic/kwh44/indexing /Users/kolakolasic/kwh44/indexing /Users/kolakolasic/kwh44/indexing/build /Users/kolakolasic/kwh44/indexing/build /Users/kolakolasic/kwh44/indexing/build/CMakeFiles/indexing.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/kolakolasic/kwh44/indexing/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/kolakolasic/kwh44/indexing /Users/kolakolasic/kwh44/indexing /Users/kolakolasic/kwh44/indexing/cmake-build-debug /Users/kolakolasic/kwh44/indexing/cmake-build-debug /Users/kolakolasic/kwh44/indexing/cmake-build-debug/CMakeFiles/indexing.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/indexing.dir/depend
 
