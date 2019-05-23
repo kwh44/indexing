@@ -20,8 +20,6 @@
 #include "indexing_thread_worker.hpp"
 #include "merging_thread_worker.hpp"
 
-typedef std::pair<std::string, size_t> pair;
-
 int main(int argc, char **argv) {
     // help info
     if (argc == 2 && std::string(argv[1]) == "--help") {

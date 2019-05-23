@@ -25,32 +25,34 @@ void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
                 continue;
             }
         } else {
-
             int response;
             ssize_t len;
-            constexpr size_t buffer_size = 8192;
-            char buff[buffer_size];
-            struct archive *a;
+
+ 			// ###
+			int64_t offset;
+			const void *buff;
+			size_t size;
+			// ###
+			struct archive *a;
             struct archive_entry *entry;
             a = archive_read_new();
             archive_read_support_filter_all(a);
             archive_read_support_format_all(a);
-            if ((response = archive_read_open_filename(a, v.c_str(), buffer_size))) {
+            if ((response = archive_read_open_filename(a, v.c_str(), 10240))) {
                 std::cerr << "archive_read_open_filename() failed: " << archive_error_string(a) << std::endl;
                 continue;
             }
             while (archive_read_next_header(a, &entry) == ARCHIVE_OK) {
-                if (archive_entry_size(entry) > 0) {
-                    std::stringstream entry_content_string;
-                    len = archive_read_data(a, buff, sizeof(buff));
-                    while (len > 0) {
-                        entry_content_string << boost::locale::fold_case(boost::locale::normalize(std::string(buff)));
-                        len = archive_read_data(a, buff, sizeof(buff));
-                    }
+                    std::stringstream content;
+					response = archive_read_data_block(a, &buff, &size, &offset);
+					while (response != ARCHIVE_EOF && response == ARCHIVE_OK) {
+						char * buffer = static_cast<char *>(const_cast<void*>(buff));
+						content << boost::locale::fold_case(boost::locale::normalize(std::string(buffer,size)));
+						response = archive_read_data_block(a, &buff, &size, &offset);
+					}
                     {
-                        index_queue.push(entry_content_string.str());
+                        index_queue.push(content.str());
                     }
-                }
             }
             archive_read_close(a);
             archive_read_free(a);
@@ -62,5 +64,3 @@ void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
     }
     std::cout << "Reader thread finished work\n";
 }
-
-
