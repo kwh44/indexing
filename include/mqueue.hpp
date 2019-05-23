@@ -28,27 +28,10 @@ public:
         return item;
     }
 
-    void pop(T &item) {
-        std::unique_lock<std::mutex> lock(mutex_);
-        while (queue_.empty()) {
-            cond_.wait(lock);
-        }
-        item = queue_.front();
-        queue_.pop();
-    };
-
-
-    void push(const T &item) {
-        std::unique_lock<std::mutex> lock(mutex_);
-        queue_.push(item);
-        lock.unlock();
-        cond_.notify_one();
-    }
-
 
     void push(T &&item) {
         std::unique_lock<std::mutex> lock(mutex_);
-        queue_.push(std::move(item));
+        queue_.emplace(item);
         lock.unlock();
         cond_.notify_one();
     }
@@ -56,31 +39,7 @@ public:
     unsigned long size() {
         return queue_.size();
     }
-
-
 };
-
-
-//
-//class Mqueue
-//{
-//private:
-//    std::queue<T> queue_;
-//    std::mutex mutex_;
-//    std::condition_variable cond_;
-//public:
-//    T pop();
-//
-//    void pop(T &item);
-//
-//    void push(const T &item);
-//
-//    void push(T &&item);
-//
-//    unsigned long size();
-//
-//
-//};
 
 #endif //PARALLEL_INDEXING_MQUEUE_H
 

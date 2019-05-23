@@ -2,7 +2,7 @@
 void merge_worker(Mqueue<std::map<std::string, size_t>> &merge_queue) {
     std::map<std::string, size_t> tls_map;
     while (true) {
-        auto single_dict = merge_queue.pop();
+        auto single_dict(merge_queue.pop());
         if (single_dict.empty()) {
             if (!tls_map.empty()) {
                 merge_queue.push(std::move(tls_map));
@@ -15,5 +15,4 @@ void merge_worker(Mqueue<std::map<std::string, size_t>> &merge_queue) {
                           tls_map.operator[](v.first) += v.second;
                       });
     }
-
 }

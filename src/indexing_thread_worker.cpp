@@ -3,11 +3,10 @@
 
 
 void index_worker(Mqueue<std::string> &index_queue, Mqueue<std::map<std::string, std::size_t>> &merge_queue) {
-    std::string string_to_index;
     while (true) {
-        string_to_index = std::move(index_queue.pop());
+        std::string string_to_index(index_queue.pop());
         if (string_to_index.empty()) {
-            index_queue.push(string_to_index);
+            index_queue.push(std::move(string_to_index));
 //            finish work
             break;
         }
@@ -18,4 +17,3 @@ void index_worker(Mqueue<std::string> &index_queue, Mqueue<std::map<std::string,
         merge_queue.push(std::move(tls_map));
     }
 }
-

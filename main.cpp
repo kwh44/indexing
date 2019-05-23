@@ -20,6 +20,8 @@
 #include "indexing_thread_worker.hpp"
 #include "merging_thread_worker.hpp"
 
+typedef std::pair<std::string, size_t> pair;
+
 int main(int argc, char **argv) {
     // help info
     if (argc == 2 && std::string(argv[1]) == "--help") {
@@ -74,7 +76,7 @@ int main(int argc, char **argv) {
 
     std::mutex index_mtx;
 //    // run it in other thread
-
+	auto start = get_current_time_fenced();
     std::thread reader(get_path_content, std::ref(index_queue), std::ref(conf_data.input_dir_name));
 
 
@@ -95,15 +97,35 @@ int main(int argc, char **argv) {
     std::cout << "READER JOINED" << std::endl;
     for (auto &v: indexing_threads) v.join();
     std::map<std::string, size_t> merge_queue_empty;
-    merge_queue.push(merge_queue_empty);
+    merge_queue.push(std::move(merge_queue_empty));
     std::cout << "INDEXING JOINED" << std::endl;
     for (auto &v: merging_threads) v.join();
-    std::cout << std::endl;
-    std::cout << "Printing final map\n";
-    auto final = std::move(merge_queue.pop());
-    for (auto it = final.begin(); it != final.end(); ++it) {
-        std::cout << it->first << " " << it->second << std::endl;
+	auto total_finish = get_current_time_fenced();
+    auto final_map = merge_queue.pop();
+
+    std::vector<std::pair<std::string, size_t>> sort_container(final_map.size());
+
+    // copy key-value pairs from the map to the vector
+    std::copy(final_map.begin(), final_map.end(), sort_container.begin());
+
+    // sort the pair by alphabet
+    std::sort(sort_container.begin(), sort_container.end(),
+              [](const pair &l, const pair &r) {
+                  return l.first < r.first;
+              });
+    // write to output file
+    for (auto &v: sort_container) {
+        output_alphabet << v.first << ": " << v.second << std::endl;
     }
-    std::cout << "Merge_queue size is " << merge_queue.size() << std::endl;
+    // sort by usage count
+    std::sort(sort_container.begin(), sort_container.end(),
+              [](const pair &l, const pair &r) {
+                  return l.second > r.second;
+              });
+    // write to output file
+    for (auto &v: sort_container) {
+        output_count << v.first << ": " << v.second << std::endl;
+    }
+    std::cout << "Total time is : " << to_us(total_finish - start) / 1000000.0 << std::endl;
     return 0;
 }
