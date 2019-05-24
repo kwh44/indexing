@@ -16,7 +16,7 @@ void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::st
     auto tt = boost::filesystem::recursive_directory_iterator(dir_name);
     unsigned read_files = 0;
     auto f = [&](boost::filesystem::recursive_directory_iterator &t) {
-        for (; t != boost::filesystem::recursive_directory_iterator{} && read_files < 20; ++t) {
+        for (; t != boost::filesystem::recursive_directory_iterator{} && read_files < 2048; ++t) {
             boost::filesystem::path z(*t);
             if (boost::filesystem::is_directory(boost::filesystem::status(z))) continue;
             auto extension = boost::locale::fold_case(boost::locale::normalize(z.extension().string()));

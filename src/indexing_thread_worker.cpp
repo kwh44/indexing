@@ -26,20 +26,8 @@ static int count(std::string &str, const std::string &sub) {
     return count;
 }
 
-/*
-static void token_usage(std::string &data, const std::vector<std::string> &token_list,
-                        std::map<std::string, size_t> &tls_map) {
-    size_t usage_count;
-    for (const auto &token: token_list) {
-        usage_count = count(data, token);
-        tls_map.emplace(std::make_pair(token, usage_count));
-    }
-}
-*/
-
 static void local_index(Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue,
                         std::string &data, std::vector<std::string> &tokens, size_t start, size_t step) {
-    std::cout << "Local worker id: " << start << std::endl;
     auto tls_map = std::make_unique<std::map<std::string, size_t>>();
     size_t usage_count;
     for (size_t i = start; i < tokens.size(); i += step) {
@@ -58,7 +46,7 @@ void index_worker(Mqueue<std::unique_ptr<std::string>> &index_queue,
             index_queue.push(string_to_index);
             break;
         }
-        // auto tls_map = std::make_unique<std::map<std::string, size_t>>();
+
         std::vector<std::string> tokens;
         parse(*string_to_index, tokens);
 
@@ -70,7 +58,5 @@ void index_worker(Mqueue<std::unique_ptr<std::string>> &index_queue,
                                           std::ref(tokens), i, local_workers);
         }
         for (auto &v: counting_threads) v.join();
-        // token_usage(*string_to_index, tokens, *tls_map);
-        // merge_queue.push(tls_map);
     }
 }

@@ -38,8 +38,6 @@ public:
         std::lock_guard<std::mutex> lk(mutex_);
         return queue_.size();
     }
-
-
 };
 
 #endif //PARALLEL_INDEXING_MQUEUE_H
