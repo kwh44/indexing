@@ -12,15 +12,30 @@
 #include <boost/locale.hpp>
 #include <condition_variable>
 #include "read_config.hpp"
-#include "measure_time.hpp"
-#include "read_from_path.hpp"
-#include "boundary_analysis.hpp"
-#include "count_token_usage.hpp"
+#include "reading_thread.hpp"
 #include "mqueue.hpp"
 #include "indexing_thread_worker.hpp"
 #include "merging_thread_worker.hpp"
 
 typedef std::pair<std::string, size_t> pair;
+
+
+inline std::chrono::steady_clock::time_point get_current_time_fenced() {
+    assert(std::chrono::steady_clock::is_steady &&
+                   "Timer should be steady (monotonic).");
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    auto res_time = std::chrono::steady_clock::now();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    return res_time;
+}
+
+template<class D>
+inline long long to_us(const D &d) {
+    return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
+}
+
+
+
 
 int main(int argc, char **argv) {
     // help info

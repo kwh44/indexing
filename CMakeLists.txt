@@ -29,11 +29,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(indexing main.cpp
         include/read_config.hpp src/read_config.cpp
-        include/measure_time.hpp
-        include/read_from_path.hpp src/read_from_path.cpp
-        include/boundary_analysis.hpp src/boundary_analysis.cpp
-        include/read_txt_to_string.hpp src/read_txt_to_string.cpp
-        include/count_token_usage.hpp src/count_token_usage.cpp
+        include/reading_thread.hpp src/reading_thread.cpp
         include/mqueue.hpp src/mqueue.cpp
         include/indexing_thread_worker.hpp src/indexing_thread_worker.cpp
         include/merging_thread_worker.hpp src/merging_thread_worker.cpp)

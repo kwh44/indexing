@@ -9,7 +9,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-
+#include <iostream>
 
 template<typename T>
 class Mqueue {
@@ -23,7 +23,7 @@ public:
         while (queue_.empty()) {
             cond_.wait(lock);
         }
-        auto item = queue_.front();
+        T item = queue_.front();
         queue_.pop();
         return item;
     }
@@ -36,10 +36,12 @@ public:
         cond_.notify_one();
     }
 
-    unsigned long size() {
+    auto size() {
+        std::lock_guard<std::mutex> lk(mutex_);
         return queue_.size();
     }
+
+
 };
 
 #endif //PARALLEL_INDEXING_MQUEUE_H
-
