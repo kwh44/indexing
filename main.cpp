@@ -1,19 +1,13 @@
 #include <iostream>
 #include <thread>
-#include <string>
-#include <algorithm>
-#include <vector>
-#include <map>
-#include <set>
-#include <memory>
-#include <mutex>
-#include <numeric>
+#include <chrono>
+#include <cassert>
+#include <atomic>
 #include <boost/locale/generator.hpp>
 #include <boost/locale.hpp>
-#include <condition_variable>
 #include "read_config.hpp"
-#include "reading_thread.hpp"
 #include "mqueue.hpp"
+#include "reading_thread.hpp"
 #include "indexing_thread_worker.hpp"
 #include "merging_thread_worker.hpp"
 
@@ -33,8 +27,6 @@ template<class D>
 inline long long to_us(const D &d) {
     return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
 }
-
-
 
 
 int main(int argc, char **argv) {
@@ -85,23 +77,18 @@ int main(int argc, char **argv) {
     boost::locale::generator gen;
     std::locale::global(gen("en_us.UTF-8"));
 
-    // array of blocks
-    Mqueue<std::string> index_queue;
-    Mqueue<std::map<std::string, size_t>> merge_queue;
+    Mqueue<std::unique_ptr<std::string>> index_queue;
+    Mqueue<std::unique_ptr<std::map<std::string, size_t>>> merge_queue;
 
-    std::mutex index_mtx;
-//    // run it in other thread
-	auto start = get_current_time_fenced();
+    auto start = get_current_time_fenced();
     std::thread reader(get_path_content, std::ref(index_queue), std::ref(conf_data.input_dir_name));
 
-
-//
     std::vector<std::thread> indexing_threads;
-    indexing_threads.reserve(conf_data.indexing_thread_num);
-//
     std::vector<std::thread> merging_threads;
+
+    indexing_threads.reserve(conf_data.indexing_thread_num);
     merging_threads.reserve(conf_data.merging_thread_num);
-//
+
     for (size_t i = 0; i < conf_data.indexing_thread_num; ++i) {
         indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(merge_queue));
     }
@@ -109,14 +96,20 @@ int main(int argc, char **argv) {
         merging_threads.emplace_back(merge_worker, std::ref(merge_queue));
     }
     reader.join();
+
+#ifdef DEBUG
     std::cout << "READER JOINED" << std::endl;
+#endif
     for (auto &v: indexing_threads) v.join();
-    std::map<std::string, size_t> merge_queue_empty;
-    merge_queue.push(std::move(merge_queue_empty));
+    auto poisson_pill = std::make_unique<std::map<std::string, size_t>>();
+    merge_queue.push(poisson_pill);
+#ifdef DEBUG
     std::cout << "INDEXING JOINED" << std::endl;
+#endif
     for (auto &v: merging_threads) v.join();
-	auto total_finish = get_current_time_fenced();
-    auto final_map = merge_queue.pop();
+
+    auto total_finish = get_current_time_fenced();
+    auto final_map = *std::move(merge_queue.pop());
 
     std::vector<std::pair<std::string, size_t>> sort_container(final_map.size());
 
@@ -128,19 +121,21 @@ int main(int argc, char **argv) {
               [](const pair &l, const pair &r) {
                   return l.first < r.first;
               });
-    // write to output file
+    // write to output_alphabet file
     for (auto &v: sort_container) {
         output_alphabet << v.first << ": " << v.second << std::endl;
     }
+
     // sort by usage count
     std::sort(sort_container.begin(), sort_container.end(),
               [](const pair &l, const pair &r) {
                   return l.second > r.second;
               });
-    // write to output file
+    // write to output_count file
     for (auto &v: sort_container) {
         output_count << v.first << ": " << v.second << std::endl;
     }
+
     std::cout << "Total time is : " << to_us(total_finish - start) / 1000000.0 << std::endl;
     return 0;
 }

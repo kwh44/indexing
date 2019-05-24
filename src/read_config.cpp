@@ -1,4 +1,3 @@
-#include <iostream>
 #include <algorithm>
 #include "read_config.hpp"
 

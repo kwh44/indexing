@@ -11,25 +11,27 @@ static void read_from_txt(std::ifstream &file, std::string &text) {
     text = boost::locale::fold_case(boost::locale::normalize(ss.str()));
 }
 
-void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
+void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::string &dir_name) {
     std::vector<std::string> files_to_index;
     auto tt = boost::filesystem::recursive_directory_iterator(dir_name);
     unsigned read_files = 0;
     auto f = [&](boost::filesystem::recursive_directory_iterator &t) {
-        for (; t != boost::filesystem::recursive_directory_iterator{} && read_files < 8; ++t) {
+        for (; t != boost::filesystem::recursive_directory_iterator{} && read_files < 20; ++t) {
             boost::filesystem::path z(*t);
             if (boost::filesystem::is_directory(boost::filesystem::status(z))) continue;
             auto extension = boost::locale::fold_case(boost::locale::normalize(z.extension().string()));
             if (extension != ".zip" && extension != ".txt") continue;
             const auto &v = z.string();
+#ifdef DEBUG
             std::cout << "Reading " << v << std::endl;
+#endif
             if (extension == ".txt") {
-                std::string text;
+                auto text = std::make_unique<std::string>();
                 std::ifstream txt_file(v);
                 if (txt_file.is_open()) {
-                    read_from_txt(txt_file, text);
-                    if (!text.empty()) {
-                        index_queue.push(std::move(text));
+                    read_from_txt(txt_file, *text);
+                    if (!text->empty()) {
+                        index_queue.push(text);
                         ++read_files;
                     } else {
                         continue;
@@ -48,7 +50,7 @@ void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
                 a = archive_read_new();
                 archive_read_support_filter_all(a);
                 archive_read_support_format_all(a);
-                if ((response = archive_read_open_filename(a, v.c_str(), 10240))) {
+                if (archive_read_open_filename(a, v.c_str(), 10240)) {
                     std::cerr << "archive_read_open_filename() failed: " << archive_error_string(a) << std::endl;
                     continue;
                 }
@@ -61,7 +63,9 @@ void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
                         response = archive_read_data_block(a, &buff, &size, &offset);
                     }
                     if (!content.str().empty()) {
-                        index_queue.push(content.str());
+                        auto text = std::make_unique<std::string>();
+                        *text = content.str();
+                        index_queue.push(text);
                         ++read_files;
                     } else {
                         continue;
@@ -77,5 +81,6 @@ void get_path_content(Mqueue<std::string> &index_queue, std::string &dir_name) {
         if (index_queue.size() > 5) continue;
         else f(tt);
     }
-    index_queue.push("");
+    auto poisson_pill = std::make_unique<std::string>();
+    index_queue.push(poisson_pill);
 }

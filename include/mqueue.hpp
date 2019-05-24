@@ -6,10 +6,8 @@
 #define PARALLEL_INDEXING_MQUEUE_H
 
 #include <queue>
-#include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <iostream>
 
 template<typename T>
 class Mqueue {
@@ -23,15 +21,15 @@ public:
         while (queue_.empty()) {
             cond_.wait(lock);
         }
-        T item = queue_.front();
+        auto item(std::move(queue_.front()));
         queue_.pop();
         return item;
     }
 
 
-    void push(T &&item) {
+    void push(T &item) {
         std::unique_lock<std::mutex> lock(mutex_);
-        queue_.emplace(item);
+        queue_.emplace(std::move(item));
         lock.unlock();
         cond_.notify_one();
     }

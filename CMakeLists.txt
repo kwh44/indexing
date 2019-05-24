@@ -12,11 +12,9 @@ find_package(Threads REQUIRED)
 
 find_package(LibArchive REQUIRED)
 
-#find_package(ICU COMPONENTS data i18n io test tu REQUIRED)
-
 include_directories(${LibArchive_INCLUDE_DIRS})
 
-add_compile_options("-DDEBUG")
+# add_compile_options("-DDEBUG")
 
 set(Boost_USE_STATIC_LIBS OFF)
 
@@ -24,13 +22,12 @@ set(Boost_USE_MULTITHREAD ON)
 
 include_directories(include)
 
-
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(indexing main.cpp
         include/read_config.hpp src/read_config.cpp
         include/reading_thread.hpp src/reading_thread.cpp
-        include/mqueue.hpp src/mqueue.cpp
+        include/mqueue.hpp
         include/indexing_thread_worker.hpp src/indexing_thread_worker.cpp
         include/merging_thread_worker.hpp src/merging_thread_worker.cpp)
 
