@@ -4,6 +4,7 @@
 #include <boost/locale.hpp>
 #include <boost/locale/boundary.hpp>
 #include <algorithm>
+#include <thread>
 
 
 static void parse(std::string &v, std::vector<std::string> &tokens_list) {
@@ -25,7 +26,7 @@ static int count(std::string &str, const std::string &sub) {
     return count;
 }
 
-
+/*
 static void token_usage(std::string &data, const std::vector<std::string> &token_list,
                         std::map<std::string, size_t> &tls_map) {
     size_t usage_count;
@@ -34,20 +35,42 @@ static void token_usage(std::string &data, const std::vector<std::string> &token
         tls_map.emplace(std::make_pair(token, usage_count));
     }
 }
+*/
+
+static void local_index(Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue,
+                        std::string &data, std::vector<std::string> &tokens, size_t start, size_t step) {
+    std::cout << "Local worker id: " << start << std::endl;
+    auto tls_map = std::make_unique<std::map<std::string, size_t>>();
+    size_t usage_count;
+    for (size_t i = start; i < tokens.size(); i += step) {
+        usage_count = count(data, tokens[i]);
+        tls_map->emplace(std::make_pair(tokens[i], usage_count));
+    }
+    merge_queue.push(tls_map);
+}
 
 
 void index_worker(Mqueue<std::unique_ptr<std::string>> &index_queue,
-                  Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue) {
+                  Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue, size_t local_workers) {
     while (true) {
         auto string_to_index(std::move(index_queue.pop()));
         if (string_to_index->empty()) {
             index_queue.push(string_to_index);
             break;
         }
-        auto tls_map = std::make_unique<std::map<std::string, size_t>>();
+        // auto tls_map = std::make_unique<std::map<std::string, size_t>>();
         std::vector<std::string> tokens;
         parse(*string_to_index, tokens);
-        token_usage(*string_to_index, tokens, *tls_map);
-        merge_queue.push(tls_map);
+
+        std::vector<std::thread> counting_threads;
+        counting_threads.reserve(local_workers);
+
+        for (size_t i = 0; i < local_workers; ++i) {
+            counting_threads.emplace_back(local_index, std::ref(merge_queue), std::ref(*string_to_index),
+                                          std::ref(tokens), i, local_workers);
+        }
+        for (auto &v: counting_threads) v.join();
+        // token_usage(*string_to_index, tokens, *tls_map);
+        // merge_queue.push(tls_map);
     }
 }

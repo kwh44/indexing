@@ -1,5 +1,5 @@
-indir="/home/kwh44/ucu/acs/lab_work_six/tdir/"
+indir="/home/kwh44/ucu/acs/lab_work_six/tdir2/"
 out_by_a="res_a.txt"
 out_by_n="res_n.txt"
-indexing_threads=8
+indexing_threads=4
 merging_threads=8

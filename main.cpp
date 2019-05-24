@@ -90,7 +90,8 @@ int main(int argc, char **argv) {
     merging_threads.reserve(conf_data.merging_thread_num);
 
     for (size_t i = 0; i < conf_data.indexing_thread_num; ++i) {
-        indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(merge_queue));
+        indexing_threads.emplace_back(index_worker, std::ref(index_queue), std::ref(merge_queue),
+                                      conf_data.indexing_thread_num);
     }
     for (size_t i = 0; i < conf_data.merging_thread_num; ++i) {
         merging_threads.emplace_back(merge_worker, std::ref(merge_queue));
