@@ -18,9 +18,7 @@ private:
 public:
     T pop() {
         std::unique_lock<std::mutex> lock(mutex_);
-        while (queue_.empty()) {
-            cond_.wait(lock);
-        }
+        cond_.wait(lock, [&] { return !queue_.empty(); });
         auto item(std::move(queue_.front()));
         queue_.pop();
         return item;
@@ -34,9 +32,9 @@ public:
         cond_.notify_one();
     }
 
-    auto size() {
-        std::lock_guard<std::mutex> lk(mutex_);
-        return queue_.size();
+    void continue_read() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        cond_.wait(lock, [&] { return queue_.size() <= 5; });
     }
 };
 

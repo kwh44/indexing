@@ -78,8 +78,8 @@ void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::st
         read_files = 0;
     };
     while (tt != boost::filesystem::recursive_directory_iterator{}) {
-        if (index_queue.size() > 5) continue;
-        else f(tt);
+        index_queue.continue_read();
+        f(tt);
     }
     auto poisson_pill = std::make_unique<std::string>();
     index_queue.push(poisson_pill);
