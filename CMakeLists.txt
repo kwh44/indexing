@@ -14,15 +14,11 @@ find_package(LibArchive REQUIRED)
 
 include_directories(${LibArchive_INCLUDE_DIRS})
 
-# add_compile_options("-DDEBUG")
-
-set(Boost_USE_STATIC_LIBS OFF)
-
-set(Boost_USE_MULTITHREAD ON)
+add_compile_options("-DDEBUG")
 
 include_directories(include)
-
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(Boost::filesystem)
+include_directories(Boost::locale)
 
 add_executable(indexing main.cpp
         include/read_config.hpp src/read_config.cpp

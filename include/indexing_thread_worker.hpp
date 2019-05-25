@@ -7,6 +7,6 @@
 
 
 void index_worker(Mqueue<std::unique_ptr<std::string>> &index_queue,
-                  Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue, size_t);
+                  Mqueue<std::unique_ptr<std::map<std::string, std::size_t>>> &merge_queue);
 
 #endif //INDEXING_INDEXING_THREAD_WORKER_H

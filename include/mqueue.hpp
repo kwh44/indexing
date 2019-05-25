@@ -7,7 +7,12 @@
 
 #include <queue>
 #include <mutex>
+
 #include <condition_variable>
+
+
+#include <iostream>
+
 
 template<typename T>
 class Mqueue {
@@ -15,15 +20,21 @@ private:
     std::queue<T> queue_;
     std::mutex mutex_;
     std::condition_variable cond_;
+    std::condition_variable cond_read;
+    bool read_status = true;
 public:
     T pop() {
         std::unique_lock<std::mutex> lock(mutex_);
-        cond_.wait(lock, [&] { return !queue_.empty(); });
+        while (queue_.empty()) {
+            cond_.wait(lock);
+        }
         auto item(std::move(queue_.front()));
         queue_.pop();
+        if (queue_.size() < 50 && !read_status) {
+            cond_read.notify_one();
+        }
         return item;
     }
-
 
     void push(T &item) {
         std::unique_lock<std::mutex> lock(mutex_);
@@ -33,8 +44,11 @@ public:
     }
 
     void continue_read() {
+        read_status = false;
         std::unique_lock<std::mutex> lock(mutex_);
-        cond_.wait(lock, [&] { return queue_.size() <= 5; });
+        cond_read.wait(lock);
+        read_status = true;
+        lock.unlock();
     }
 };
 

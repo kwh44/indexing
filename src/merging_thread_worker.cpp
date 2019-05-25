@@ -12,9 +12,13 @@ void merge_worker(Mqueue<std::unique_ptr<std::map<std::string, size_t>>> &merge_
             merge_queue.push(single_dict);
             break;
         }
+//        if (tls_map->size() < single_dict->size()) {
+//            std::swap(tls_map, single_dict);
+//        }
         std::for_each(single_dict->begin(), single_dict->end(),
                       [&](const std::map<std::string, size_t>::value_type &v) {
                           tls_map->operator[](v.first) += v.second;
                       });
+
     }
 }
