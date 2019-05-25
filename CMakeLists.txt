@@ -14,7 +14,11 @@ find_package(LibArchive REQUIRED)
 
 include_directories(${LibArchive_INCLUDE_DIRS})
 
-add_compile_options("-DDEBUG")
+# add_compile_options("-DDEBUG")
+
+set(Boost_USE_STATIC_LIBS OFF)
+
+set(Boost_USE_MULTITHREAD ON)
 
 include_directories(include)
 include_directories(Boost::filesystem)

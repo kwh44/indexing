@@ -1,4 +1,3 @@
-
 #include "indexing_thread_worker.hpp"
 #include <boost/locale.hpp>
 #include <boost/locale/boundary.hpp>
@@ -18,6 +17,6 @@ void index_worker(Mqueue<std::unique_ptr<std::string>> &index_queue,
         for (auto v = map.begin(), end = map.end(); v != end; ++v) {
             ++tls_map->operator[](*v);
         }
-        merge_queue.push(tls_map);
+        if (!tls_map->empty())merge_queue.push(tls_map);
     }
 }

@@ -30,7 +30,7 @@ public:
         }
         auto item(std::move(queue_.front()));
         queue_.pop();
-        if (queue_.size() < 50 && !read_status) {
+        if (queue_.size() < 10 && !read_status) {
             cond_read.notify_one();
         }
         return item;
@@ -41,6 +41,11 @@ public:
         queue_.emplace(std::move(item));
         lock.unlock();
         cond_.notify_one();
+    }
+
+    auto size() {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return queue_.size();
     }
 
     void continue_read() {

@@ -1,5 +1,5 @@
-indir="/home/kwh44/gutenberg/"
+indir="/home/kwh44/gutenberg/etext00/"
 out_by_a="res_a.txt"
 out_by_n="res_n.txt"
-indexing_threads=4
+indexing_threads=8
 merging_threads=4

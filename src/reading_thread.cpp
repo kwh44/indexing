@@ -13,10 +13,9 @@ static void read_from_txt(std::ifstream &file, std::string &text) {
 }
 
 void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::string &dir_name) {
-    std::vector<std::string> files_to_index;
-    auto t = boost::filesystem::recursive_directory_iterator(dir_name);
     int read_files = 0;
-    for (; t != boost::filesystem::recursive_directory_iterator{}; ++t) {
+    for (auto t = boost::filesystem::recursive_directory_iterator(dir_name);
+         t != boost::filesystem::recursive_directory_iterator{}; ++t) {
         boost::filesystem::path z(*t);
         if (boost::filesystem::is_directory(boost::filesystem::status(z))) continue;
         auto extension = boost::locale::fold_case(boost::locale::normalize(z.extension().string()));
@@ -51,8 +50,8 @@ void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::st
                     if (entry_size <= 0) continue;
                     std::string read_to(entry_size, ' ');
                     archive_read_data(a, &read_to[0], entry_size);
+                    if (read_to.empty()) continue;
                     *content = boost::locale::normalize(boost::locale::fold_case(read_to));
-                    if (content->empty()) continue;
                     index_queue.push(content);
                     ++read_files;
                 }
