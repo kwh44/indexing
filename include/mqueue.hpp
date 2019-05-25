@@ -26,6 +26,7 @@ public:
     T pop() {
         std::unique_lock<std::mutex> lock(mutex_);
         while (queue_.empty()) {
+            if (!read_status) cond_read.notify_one();
             cond_.wait(lock);
         }
         auto item(std::move(queue_.front()));

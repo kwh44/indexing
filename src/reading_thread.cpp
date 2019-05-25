@@ -59,7 +59,7 @@ void get_path_content(Mqueue<std::unique_ptr<std::string>> &index_queue, std::st
             archive_read_close(a);
             archive_read_free(a);
         }
-        if (read_files > 500) {
+        if (read_files > 20) {
             index_queue.continue_read();
             read_files = 0;
         }
